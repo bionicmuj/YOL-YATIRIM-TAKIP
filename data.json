@@ -1,8 +1,8 @@
 {
  "yil": 2026,
  "baslik": "KDVLİ 2026 Yol Yatırım Programı",
- "guncelleme": "12.11.2026 10:00",
- "yayin": "12.11.2026 10:01",
+ "guncelleme": "26.10.2026 09:33",
+ "yayin": "12.11.2026 10:59",
  "kalemler": [
   "Yeni Yol",
   "Sanat Yapısı",
@@ -855,6 +855,8 @@
    "aciklama": "Yapım süreci devam etmektedir."
   }
  ],
- "ek_notlar": [],
+ "ek_notlar": [
+  "Akyazı İşletme Müdürlüğünde yürütülmekte olan yangın havuzu yapımı işi %50 fiziki ilerleme seviyesindedir."
+ ],
  "rapor": "rapor/KDVLI_2026_Program_Gerceklesme_Raporu.docx"
 }
