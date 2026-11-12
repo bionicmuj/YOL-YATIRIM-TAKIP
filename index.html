@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F3864">
+<meta name="robots" content="noindex, nofollow">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<title>Yol Yatırım Takip</title>
+<style>
+  :root{
+    --mavi:#1F3864; --yesil:#1E5631; --mor:#7030A0; --altin:#BF8F00; --yy:#2E5395;
+    --zemin:#F3F5F8; --kart:#fff; --cizgi:#E2E6EC; --metin:#1B2430; --soluk:#6B7684;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--zemin);color:var(--metin);
+    font-family:Calibri,Carlito,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+  header{position:sticky;top:0;z-index:5;background:var(--mavi);color:#fff;
+    padding:calc(env(safe-area-inset-top) + 12px) 16px 0}
+  header h1{margin:0;font-size:18px;font-weight:700;letter-spacing:.2px}
+  header .alt{font-size:12.5px;opacity:.8;margin-top:2px}
+  nav{display:flex;gap:6px;overflow-x:auto;padding:12px 0 10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav button{flex:0 0 auto;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;
+    font:inherit;font-size:14px;padding:7px 13px;border-radius:999px;cursor:pointer}
+  nav button.aktif{background:#fff;color:var(--mavi);font-weight:700;border-color:#fff}
+  nav .ayrac{flex:0 0 1px;background:rgba(255,255,255,.3);margin:4px 2px}
+  main{padding:14px 14px calc(96px + env(safe-area-inset-bottom));max-width:640px;margin:0 auto}
+  h2{font-size:17px;margin:4px 2px 12px;color:var(--mavi)}
+  .kart{background:var(--kart);border-radius:14px;margin-bottom:12px;
+    box-shadow:0 1px 2px rgba(16,24,40,.06);border:1px solid var(--cizgi);overflow:hidden}
+  .kart .ust{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 4px}
+  .etiket{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+  .etiket i{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .yuzde{font-weight:700;font-size:15px}
+  .rakam{padding:2px 14px 0;font-size:14px;color:var(--soluk)}
+  .rakam b{font-size:24px;color:var(--metin);font-weight:700}
+  .bar{height:8px;background:#E9EDF2;border-radius:99px;margin:10px 14px 8px;overflow:hidden}
+  .bar span{display:block;height:100%;border-radius:99px}
+  .durum{padding:0 14px 12px;font-size:13.5px;color:var(--soluk)}
+  .durum.eksik{color:#9A3412}
+  .durum.tamam{color:var(--yesil)}
+  .not{margin:0 14px 12px;padding:8px 10px;background:#F6F8FB;border-left:3px solid var(--mavi);
+    border-radius:6px;font-size:13px;font-style:italic;color:#334155}
+  .bos{opacity:.55}
+  details{border-top:1px solid var(--cizgi)}
+  summary{list-style:none;padding:10px 14px;font-size:13.5px;color:var(--mavi);font-weight:600;cursor:pointer}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"▾";float:right;transition:transform .15s}
+  details[open] summary::after{transform:rotate(180deg)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:var(--mavi);color:#fff;font-weight:600;padding:6px 8px;text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:7px 8px;border-bottom:1px solid var(--cizgi);text-align:right;vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td small{display:block;color:var(--soluk);font-size:11.5px}
+  tr.git{cursor:pointer}
+  tr.git td:first-child{color:var(--mavi);font-weight:600}
+  .ek{background:#FFFBEB;border:1px solid #F5E1A4;border-radius:12px;padding:10px 12px;font-size:13.5px;margin-bottom:12px}
+  .alt-bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:#fff;border-top:1px solid var(--cizgi);
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;justify-content:center}
+  .alt-bar button{flex:1;max-width:300px;border:0;border-radius:12px;padding:12px 10px;font:inherit;
+    font-size:14.5px;font-weight:700;cursor:pointer}
+  .wp{background:#1E5631;color:#fff}
+  .ikincil{background:#E8EDF5;color:var(--mavi)}
+  .hata{background:#FEF2F2;border:1px solid #FECACA;color:#991B1B;padding:12px;border-radius:12px}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#111827;color:#fff;
+    padding:9px 14px;border-radius:10px;font-size:13.5px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+  .toast.goster{opacity:.92}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="baslik">Yol Yatırım Programı</h1>
+  <div class="alt" id="tarih">Yükleniyor…</div>
+  <nav id="nav"></nav>
+</header>
+<main id="icerik"></main>
+<div class="alt-bar">
+  <button class="ikincil" id="btnOzet">Özeti paylaş</button>
+  <button class="wp" id="btnRapor">📄 Raporu gönder</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const RENK = {"Yeni Yol":"#2E5395","Sanat Yapısı":"#7030A0","Büyük Onarım":"#BF8F00","Üst Yapı":"#1E5631"};
+const fmt = n => (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const yuzde = (g,p) => p>0 ? Math.round(g/p*1000)/10 : null;
+const bas = s => s ? s.charAt(0) + s.slice(1).toLocaleLowerCase("tr-TR") : s;
+let D = null, secim = {tur:"bolge", ad:null};
+
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("goster");
+  clearTimeout(t._z);t._z=setTimeout(()=>t.classList.remove("goster"),2200)}
+
+async function yukle(){
+  try{
+    const r = await fetch("data.json?t="+Date.now(),{cache:"no-store"});
+    if(!r.ok) throw new Error(r.status);
+    D = await r.json();
+  }catch(e){
+    document.getElementById("icerik").innerHTML='<div class="hata">Veri yüklenemedi. İnternet bağlantınızı kontrol edip sayfayı yenileyin.</div>';
+    document.getElementById("tarih").textContent="";
+    return;
+  }
+  document.getElementById("baslik").textContent = D.baslik;
+  document.getElementById("tarih").textContent = "Veri tarihi: " + D.guncelleme;
+  const h = decodeURIComponent(location.hash.slice(1));
+  if(h){const [t,a]=h.split(":"); if(t==="il"&&D.il[a]) secim={tur:"il",ad:a}; else if(t==="isl"&&D.isletme[a]) secim={tur:"isl",ad:a};}
+  ciz();
+}
+
+function sec(tur,ad){secim={tur,ad};history.replaceState(null,"",tur==="bolge"?"#":"#"+(tur==="il"?"il":"isl")+":"+ad);ciz();scrollTo(0,0)}
+
+function navCiz(){
+  const n=document.getElementById("nav"); n.innerHTML="";
+  const b=(txt,tur,ad)=>{const e=document.createElement("button");e.textContent=txt;
+    if(secim.tur===tur&&(secim.ad===ad))e.className="aktif";e.onclick=()=>sec(tur,ad);n.appendChild(e)};
+  b("Bölge","bolge",null);
+  Object.keys(D.iller).forEach(i=>b(D.il_gorunen[i]||bas(i),"il",i));
+  const a=document.createElement("span");a.className="ayrac";n.appendChild(a);
+  Object.values(D.iller).flat().forEach(i=>b(bas(i),"isl",i));
+  const akt=n.querySelector(".aktif"); if(akt) akt.scrollIntoView({inline:"center",block:"nearest"});
+}
+
+function kapsam(){
+  if(secim.tur==="bolge") return {ad:"Bölge Müdürlüğü Geneli", veri:D.bolge, isletmeler:Object.values(D.iller).flat()};
+  if(secim.tur==="il") return {ad:(D.il_gorunen[secim.ad]||secim.ad)+" İli", veri:D.il[secim.ad], isletmeler:D.iller[secim.ad]};
+  return {ad:bas(secim.ad)+" İşletme Müdürlüğü", veri:D.isletme[secim.ad], isletmeler:[secim.ad]};
+}
+
+function kartCiz(kalem,k,isletmeler){
+  const p=k.program_km,g=k.gerceklesen_km,o=yuzde(g,p),renk=RENK[kalem];
+  const bos = p===0 && g===0;
+  let durum="", sinif="";
+  if(bos){durum="Bu yıl programda hedef yok."}
+  else if(g+0.0005<p){durum=`Kalan: ${fmt(p-g)} km`;sinif="eksik"}
+  else if(g>p+0.0005){durum=`Program aşıldı: +${fmt(g-p)} km`;sinif="tamam"}
+  else {durum="Program tamamlandı ✓";sinif="tamam"}
+  const notlar = D.aciklamalar.filter(a=>a.kalem===kalem && isletmeler.includes(a.isletme))
+    .map(a=>`<div class="not">${isletmeler.length>1?bas(a.isletme)+": ":""}${a.aciklama.replace(/^\s*Not:\s*/i,'')}</div>`).join("");
+  let liste="";
+  if(!bos){
+    if(secim.tur==="isl"){
+      const satir=D.detay[kalem].filter(r=>r.isletme===secim.ad);
+      if(satir.length) liste=`<details><summary>Yol / segment listesi (${satir.length})</summary><table>
+        <tr><th>Yol</th><th>Program</th><th>Gerç.</th></tr>
+        ${satir.map(r=>`<tr><td>${r.yol_kod||"-"}${r.yol_adi?" "+r.yol_adi:""}<small>${r.seflik?bas(r.seflik)+" Şefliği":""}</small></td>
+          <td>${fmt(r.program_km)}</td><td>${fmt(r.gerceklesen_km)}</td></tr>`).join("")}</table></details>`;
+    }else{
+      const satir=isletmeler.map(i=>({i,...D.isletme[i][kalem]})).filter(r=>r.program_km>0||r.gerceklesen_km>0);
+      if(satir.length) liste=`<details><summary>İşletme dağılımı (${satir.length})</summary><table>
+        <tr><th>İşletme</th><th>Program</th><th>Gerç.</th><th>%</th></tr>
+        ${satir.map(r=>`<tr class="git" onclick="sec('isl','${r.i}')"><td>${bas(r.i)} ›</td><td>${fmt(r.program_km)}</td>
+          <td>${fmt(r.gerceklesen_km)}</td><td>${r.program_km>0?yuzde(r.gerceklesen_km,r.program_km).toLocaleString("tr-TR"):"-"}</td></tr>`).join("")}
+        </table></details>`;
+    }
+  }
+  return `<section class="kart ${bos?"bos":""}">
+    <div class="ust"><span class="etiket"><i style="background:${renk}"></i>${kalem}</span>
+      <span class="yuzde" style="color:${renk}">${o===null?"":"%"+o.toLocaleString("tr-TR")}</span></div>
+    <div class="rakam"><b>${fmt(g)}</b> / ${fmt(p)} km</div>
+    <div class="bar"><span style="width:${Math.min(o||0,100)}%;background:${renk}"></span></div>
+    <div class="durum ${sinif}">${durum}</div>${notlar}${liste}</section>`;
+}
+
+function ciz(){
+  navCiz();
+  const k=kapsam();
+  let h=`<h2>${k.ad}</h2>`;
+  h+=D.kalemler.map(kl=>kartCiz(kl,k.veri[kl],k.isletmeler)).join("");
+  if(secim.tur==="bolge" && D.ek_notlar.length) h+=D.ek_notlar.map(n=>`<div class="ek">📌 ${n}</div>`).join("");
+  document.getElementById("icerik").innerHTML=h;
+}
+
+function ozetMetni(){
+  const k=kapsam();
+  let s=`*${D.baslik}*\n${k.ad}\n(Veri tarihi: ${D.guncelleme})\n`;
+  D.kalemler.forEach(kl=>{const v=k.veri[kl]; if(v.program_km===0&&v.gerceklesen_km===0) return;
+    s+=`\n• ${kl}: ${fmt(v.program_km)} km programa karşılık ${fmt(v.gerceklesen_km)} km gerçekleşti`;
+    if(v.gerceklesen_km+0.0005<v.program_km) s+=` (kalan ${fmt(v.program_km-v.gerceklesen_km)} km)`;});
+  return s;
+}
+
+document.getElementById("btnOzet").onclick=async()=>{
+  const t=ozetMetni();
+  if(navigator.share){try{await navigator.share({text:t});return}catch(e){if(e.name==="AbortError")return}}
+  location.href="https://wa.me/?text="+encodeURIComponent(t);
+};
+
+document.getElementById("btnRapor").onclick=async()=>{
+  const ad=D.rapor.split("/").pop();
+  toast("Rapor hazırlanıyor…");
+  try{
+    const r=await fetch(D.rapor+"?t="+Date.now(),{cache:"no-store"});
+    if(!r.ok) throw new Error(r.status);
+    const blob=await r.blob();
+    const dosya=new File([blob],ad,{type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+    if(navigator.canShare && navigator.canShare({files:[dosya]})){
+      await navigator.share({files:[dosya],title:ad});
+    }else{
+      const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=ad;a.click();
+      toast("Rapor indirildi; WhatsApp'tan belge olarak ekleyebilirsiniz.");
+    }
+  }catch(e){ if(e.name!=="AbortError") toast("Rapor alınamadı: "+e.message); }
+};
+
+yukle();
+</script>
+</body>
+</html>

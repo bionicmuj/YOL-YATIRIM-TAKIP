@@ -1,0 +1,42 @@
+MOBİL TAKİP SAYFASI — GITHUB KURULUMU (bir kez yapılır)
+=======================================================
+
+Bu "mobil" klasörü GitHub deposunun kendisidir. İçinde yalnızca km verisi
+(data.json) ve parasal bilgisi çıkarılmış Word raporu bulunur; TL yoktur.
+
+1) GitHub'da yeni depo açın
+   github.com → sağ üst "+" → New repository
+   Ad: yol-yatirim-takip   Görünürlük: Public   → Create repository
+
+2) Bu klasörü depoya bağlayın — İKİ YOLDAN BİRİ:
+
+   (A) GitHub Desktop ile (en kolay)
+       - desktop.github.com'dan kurun, GitHub hesabınızla giriş yapın.
+       - File → Add local repository → bu "mobil" klasörünü seçin
+         → "create a repository" deyin → Publish repository
+         (Keep this code private kutusunun işaretini KALDIRIN).
+
+   (B) git komutlarıyla (git kuruluysa), bu klasörde:
+       git init
+       git add -A
+       git commit -m "ilk yükleme"
+       git branch -M main
+       git remote add origin https://github.com/KULLANICI_ADINIZ/yol-yatirim-takip.git
+       git push -u origin main
+
+3) Sayfayı yayına açın
+   Depo sayfası → Settings → Pages → Source: "Deploy from a branch"
+   Branch: main  /  (root)  → Save
+   1-2 dakika sonra adres:  https://KULLANICI_ADINIZ.github.io/yol-yatirim-takip/
+
+4) Telefonda bu adresi açın → tarayıcı menüsünden "Ana ekrana ekle".
+
+GÜNLÜK KULLANIM
+   Excel'i güncelleyin, kaydedip kapatın → YAYINLA.bat'a çift tıklayın.
+   - git kuruluysa (B) gönderim otomatik yapılır.
+   - GitHub Desktop kullanıyorsanız (A): YAYINLA.bat bittikten sonra
+     GitHub Desktop'ta "Commit to main" → "Push origin".
+   Telefondaki sayfa 1-2 dakika içinde güncellenir.
+
+Not: Sayfa arama motorlarına kapalıdır (noindex), ama adresi bilen herkes
+açabilir. İçeriğinde yalnızca km ve açıklama notları vardır.
