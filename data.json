@@ -1,8 +1,8 @@
 {
  "yil": 2026,
  "baslik": "KDVLİ 2026 Yol Yatırım Programı",
- "guncelleme": "26.10.2026 09:33",
- "yayin": "12.11.2026 10:59",
+ "guncelleme": "13.11.2026 14:23",
+ "yayin": "13.11.2026 14:23",
  "kalemler": [
   "Yeni Yol",
   "Sanat Yapısı",
@@ -30,7 +30,7 @@
  "bolge": {
   "Yeni Yol": {
    "program_km": 30.0,
-   "gerceklesen_km": 26.384
+   "gerceklesen_km": 30.194
   },
   "Sanat Yapısı": {
    "program_km": 70.0,
@@ -49,7 +49,7 @@
   "SAKARYA": {
    "Yeni Yol": {
     "program_km": 26.5,
-    "gerceklesen_km": 22.884
+    "gerceklesen_km": 26.694
    },
    "Sanat Yapısı": {
     "program_km": 49.25,
@@ -141,7 +141,7 @@
   "GEYVE": {
    "Yeni Yol": {
     "program_km": 18.0,
-    "gerceklesen_km": 16.134
+    "gerceklesen_km": 19.944
    },
    "Sanat Yapısı": {
     "program_km": 9.75,
@@ -285,7 +285,7 @@
     "yol_kod": "422",
     "yol_adi": null,
     "program_km": 3.81,
-    "gerceklesen_km": 0.0
+    "gerceklesen_km": 3.81
    },
    {
     "isletme": "GEYVE",
@@ -828,12 +828,6 @@
    "isletme": "GEBZE",
    "kalem": "Sanat Yapısı",
    "eksik_km": 7.25,
-   "aciklama": "Yapım süreci devam etmektedir."
-  },
-  {
-   "isletme": "GEYVE",
-   "kalem": "Yeni Yol",
-   "eksik_km": 1.866,
    "aciklama": "Yapım süreci devam etmektedir."
   },
   {
